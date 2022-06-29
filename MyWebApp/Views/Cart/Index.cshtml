@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MyWebApp.Models.ViewModel.CartViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Photo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Sub Total
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in (List<MyWebApp.Models.ViewModel.CartViewModel>)Session["cart"]) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Photo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.ActionLink("Remove", "Remove", new { productName = item.ProductName })
+        </td>
+    </tr>
+}
+    <tr>
+        <td align="right" colspan="5">
+            Sum
+        </td>
+        <td>
+            @{ 
+                List<MyWebApp.Models.ViewModel.CartViewModel> carts = (List<MyWebApp.Models.ViewModel.CartViewModel>)Session["cart"];
+                var total = carts.Sum(x => x.Quantity * x.Price);
+            }
+            @total
+        </td>
+    </tr>
+
+</table>
